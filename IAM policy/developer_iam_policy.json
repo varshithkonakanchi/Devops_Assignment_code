@@ -1,0 +1,63 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "codecommit:GetRepository",
+                "codecommit:ListBranches",
+                "codecommit:GetObjectIdentifier",
+                "codecommit:GetTree",
+                "codecommit:GetCommitHistory",
+                "codecommit:GetReferences",
+                "codecommit:GetCommit",
+                "codecommit:GetMergeOptions",
+                "codecommit:GitPull",
+                "codecommit:GitPush",
+                "codecommit:CreatePullRequest",
+                "codecommit:ListPullRequests",
+                "codecommit:GetPullRequest",
+                "codecommit:UpdatePullRequestDescription",
+                "codecommit:UpdatePullRequestStatus",
+                "codecommit:UpdatePullRequestTitle",
+                "codecommit:MergePullRequestByFastForward",
+                "codecommit:MergePullRequestBySquash",
+                "codecommit:MergePullRequestByThreeWay",
+                "codecommit:ListRepositories"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Deny",
+            "Action": [
+                "codecommit:GitPush",
+                "codecommit:UpdatePullRequestDescription",
+                "codecommit:UpdatePullRequestStatus",
+                "codecommit:UpdatePullRequestTitle"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "codecommit:References": [
+                        "refs/heads/prod*",
+                        "refs/heads/staging*"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:DescribeLogGroups",
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents",
+                "logs:FilterLogEvents",
+                "cloudwatch:GetMetricData",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:ListMetrics",
+                "cloudwatch:ListDashboards"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
