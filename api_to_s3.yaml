@@ -1,0 +1,110 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  AWS CloudFormation Template to create an API Gateway PUT endpoint
+  that writes the request body to an S3 bucket using Lambda.
+
+Resources:
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: my-api-to-s3-bucket
+
+  MyLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties: 
+      Handler: index.handler
+      Role: 
+        Fn::GetAtt: 
+          - MyLambdaExecutionRole
+          - Arn
+      Code:
+        ZipFile: |
+          const AWS = require('aws-sdk');
+          const s3 = new AWS.S3();
+          exports.handler = async (event) => {
+            const body = JSON.parse(event.body);
+            const params = {
+              Bucket: process.env.BUCKET_NAME,
+              Key: body.key,
+              Body: body.data,
+              ContentType: 'application/json'
+            };
+            await s3.putObject(params).promise();
+            return {
+              statusCode: 200,
+              body: JSON.stringify({ message: 'Successfully uploaded to S3' }),
+            };
+          };
+      Runtime: nodejs20.x
+      Environment: 
+        Variables: 
+          BUCKET_NAME: !Ref MyBucket
+
+  MyLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaS3Policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:PutObjectAcl
+                Resource: 
+                  - !Sub arn:aws:s3:::${MyBucket}/*
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+  MyApiGatewayRestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: MyApi
+
+  MyApiGatewayResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: 
+        Fn::GetAtt: 
+          - MyApiGatewayRestApi
+          - RootResourceId
+      PathPart: s3
+      RestApiId: 
+        Ref: MyApiGatewayRestApi
+
+  MyApiGatewayMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: PUT
+      ResourceId: 
+        Ref: MyApiGatewayResource
+      RestApiId: 
+        Ref: MyApiGatewayRestApi
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri: 
+          Fn::Sub: 
+            - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MyLambdaFunction.Arn}/invocations
+            - {MyLambdaFunction: !Ref MyLambdaFunction}
+
+  MyLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: 
+        Ref: MyLambdaFunction
+      Principal: apigateway.amazonaws.com
