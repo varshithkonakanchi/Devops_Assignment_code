@@ -1,0 +1,126 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "codecommit:CreateRepository",
+                "codecommit:ListRepositories",
+                "codecommit:GetRepository",
+                "codecommit:UpdateRepositoryName",
+                "codecommit:UpdateDefaultBranch",
+                "codecommit:CreateBranch",
+                "codecommit:DeleteBranch",
+                "codecommit:PutFile",
+                "codecommit:MergePullRequestByFastForward",
+                "codecommit:MergePullRequestBySquash",
+                "codecommit:MergePullRequestByThreeWay",
+                "codecommit:CreatePullRequest",
+                "codecommit:UpdatePullRequestTitle",
+                "codecommit:UpdatePullRequestDescription",
+                "codecommit:UpdatePullRequestStatus"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "codebuild:ListProjects",
+                "codebuild:UpdateProject",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild",
+                "codebuild:ListCuratedEnvironmentImages",
+                "codebuild:CreateProject",
+                "codebuild:DeleteProject",
+                "codebuild:BatchGetProjects"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "lambda:UpdateFunctionCode",
+                "lambda:UpdateFunctionConfiguration",
+                "lambda:UpdateAlias",
+                "lambda:UpdateFunctionEventInvokeConfig",
+                "lambda:AddLayerVersionPermission",
+                "lambda:RemoveLayerVersionPermission",
+                "lambda:GetAccountSettings",
+                "lambda:CreateFunction",
+                "lambda:DeleteFunction",
+                "lambda:TagResource",
+                "lambda:UntagResource",
+                "lambda:ListTags",
+                "lambda:GetFunction",
+                "lambda:GetFunctionConfiguration",
+                "lambda:ListVersionsByFunction",
+                "lambda:InvokeFunction",
+                "lambda:GetLayerVersion",
+                "lambda:ListLayers"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "apigateway:POST",
+                "apigateway:PUT",
+                "apigateway:PATCH",
+                "apigateway:GET"
+            ],
+            "Resource": [
+                "arn:aws:apigateway:ap-southeast-2::/apis",
+                "arn:aws:apigateway:ap-southeast-2::/restapis/*",
+                "arn:aws:apigateway:ap-southeast-2::/restapis/*/resources/*",
+                "arn:aws:apigateway:ap-southeast-2::/restapis/*/methods/*",
+                "arn:aws:apigateway:ap-southeast-2::/restapis/*/stages/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:DescribeLogGroups",
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents",
+                "logs:FilterLogEvents",
+                "cloudwatch:GetMetricData",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:ListMetrics",
+                "cloudwatch:ListDashboards"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateRole",
+                "iam:UpdateRole",
+                "iam:DeleteRole",
+                "iam:PassRole",
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:PutRolePolicy",
+                "iam:DeleteRolePolicy",
+                "iam:CreatePolicy",
+                "iam:DeletePolicy",
+                "iam:CreatePolicyVersion",
+                "iam:DeletePolicyVersion",
+                "iam:ListPolicyVersions",
+                "iam:ListRoles"
+            ],
+            "Resource": [
+                "arn:aws:iam::011528265993:policy/*",
+                "arn:aws:iam::011528265993:role/service-role/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "tag:GetResources",
+                "tag:GetTagKeys",
+                "tag:GetTagValues"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
