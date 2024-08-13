@@ -4,38 +4,52 @@
         {
             "Effect": "Allow",
             "Action": [
+                "codecommit:ListRepositories",
                 "codecommit:GetRepository",
+                "codecommit:GetBranch",
                 "codecommit:ListBranches",
                 "codecommit:GetObjectIdentifier",
-                "codecommit:GetTree",
-                "codecommit:GetCommitHistory",
                 "codecommit:GetReferences",
-                "codecommit:GetCommit",
-                "codecommit:GetMergeOptions",
-                "codecommit:GitPull",
-                "codecommit:GitPush",
-                "codecommit:CreatePullRequest",
                 "codecommit:ListPullRequests",
-                "codecommit:GetPullRequest",
                 "codecommit:UpdatePullRequestDescription",
                 "codecommit:UpdatePullRequestStatus",
-                "codecommit:UpdatePullRequestTitle",
-                "codecommit:MergePullRequestByFastForward",
-                "codecommit:MergePullRequestBySquash",
-                "codecommit:MergePullRequestByThreeWay",
-                "codecommit:ListRepositories"
+                "codecommit:GetPullRequest",
+                "codecommit:BatchGetPullRequests"
             ],
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "codecommit:GitPush",
+                "codecommit:GitPull",
+                "codecommit:CreatePullRequest",
+                "codecommit:UpdatePullRequestDescription",
+                "codecommit:UpdatePullRequestStatus",
+                "codecommit:UpdatePullRequestTitle"
+            ],
+            "Resource": [
+                "arn:aws:codecommit:ap-southeast-2:011528265993:test_repo"
+            ],
+            "Condition": {
+                "StringNotLike": {
+                    "codecommit:References": [
+                        "refs/heads/prod*",
+                        "refs/heads/staging*"
+                    ]
+                }
+            }
         },
         {
             "Effect": "Deny",
             "Action": [
                 "codecommit:GitPush",
                 "codecommit:UpdatePullRequestDescription",
-                "codecommit:UpdatePullRequestStatus",
-                "codecommit:UpdatePullRequestTitle"
+                "codecommit:UpdatePullRequestStatus"
             ],
-            "Resource": "*",
+            "Resource": [
+                "arn:aws:codecommit:ap-southeast-2:011528265993:test_repo"
+            ],
             "Condition": {
                 "StringLike": {
                     "codecommit:References": [
@@ -48,14 +62,22 @@
         {
             "Effect": "Allow",
             "Action": [
+                "codecommit:CreatePullRequest"
+            ],
+            "Resource": [
+                "arn:aws:codecommit:ap-southeast-2:011528265993:test_repo"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
                 "logs:DescribeLogGroups",
                 "logs:DescribeLogStreams",
                 "logs:GetLogEvents",
                 "logs:FilterLogEvents",
                 "cloudwatch:GetMetricData",
                 "cloudwatch:GetMetricStatistics",
-                "cloudwatch:ListMetrics",
-                "cloudwatch:ListDashboards"
+                "cloudwatch:ListMetrics"
             ],
             "Resource": "*"
         }
