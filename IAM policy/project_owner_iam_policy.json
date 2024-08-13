@@ -4,21 +4,26 @@
         {
             "Effect": "Allow",
             "Action": [
-                "codecommit:CreateRepository",
                 "codecommit:ListRepositories",
+                "codecommit:ListBranches",
+                "codecommit:GetReferences",
                 "codecommit:GetRepository",
+                "codecommit:GetCommit",
+                "codecommit:GetObjectIdentifier",
+                "codecommit:UpdateRepositoryDescription",
                 "codecommit:UpdateRepositoryName",
                 "codecommit:UpdateDefaultBranch",
-                "codecommit:CreateBranch",
-                "codecommit:DeleteBranch",
                 "codecommit:PutFile",
-                "codecommit:MergePullRequestByFastForward",
-                "codecommit:MergePullRequestBySquash",
-                "codecommit:MergePullRequestByThreeWay",
+                "codecommit:BatchGetPullRequests",
+                "codecommit:GetPullRequest",
+                "codecommit:ListPullRequests",
                 "codecommit:CreatePullRequest",
                 "codecommit:UpdatePullRequestTitle",
                 "codecommit:UpdatePullRequestDescription",
-                "codecommit:UpdatePullRequestStatus"
+                "codecommit:UpdatePullRequestStatus",
+                "codecommit:CreateBranch",
+                "codecommit:DeleteBranch",
+                "codecommit:GitPush"
             ],
             "Resource": "*"
         },
@@ -26,13 +31,12 @@
             "Effect": "Allow",
             "Action": [
                 "codebuild:ListProjects",
-                "codebuild:UpdateProject",
                 "codebuild:StartBuild",
                 "codebuild:StopBuild",
-                "codebuild:ListCuratedEnvironmentImages",
-                "codebuild:CreateProject",
-                "codebuild:DeleteProject",
-                "codebuild:BatchGetProjects"
+                "codebuild:UpdateProject",
+                "codebuild:BatchGetProjects",
+                "codedeploy:ListApplications",
+                "codebuild:BatchGetBuilds"
             ],
             "Resource": "*"
         },
@@ -40,23 +44,26 @@
             "Effect": "Allow",
             "Action": [
                 "lambda:UpdateFunctionCode",
+                "lambda:ListFunctions",
                 "lambda:UpdateFunctionConfiguration",
-                "lambda:UpdateAlias",
                 "lambda:UpdateFunctionEventInvokeConfig",
-                "lambda:AddLayerVersionPermission",
-                "lambda:RemoveLayerVersionPermission",
-                "lambda:GetAccountSettings",
-                "lambda:CreateFunction",
-                "lambda:DeleteFunction",
-                "lambda:TagResource",
-                "lambda:UntagResource",
-                "lambda:ListTags",
+                "lambda:UpdateAlias",
+                "lambda:UpdateEventSourceMapping",
+                "lambda:AddPermission",
+                "lambda:RemovePermission",
+                "lambda:ListLayers",
+                "lambda:ListLayerVersions",
                 "lambda:GetFunction",
-                "lambda:GetFunctionConfiguration",
-                "lambda:ListVersionsByFunction",
-                "lambda:InvokeFunction",
                 "lambda:GetLayerVersion",
-                "lambda:ListLayers"
+                "lambda:ListVersionsByFunction",
+                "lambda:GetFunctionConfiguration",
+                "lambda:GetAccountSettings",
+                "lambda:GetPolicy",
+                "lambda:ListEventSourceMappings",
+                "lambda:ListFunctionUrlConfigs",
+                "lambda:ListTags",
+                "lambda:ListProvisionedConcurrencyConfigs",
+                "lambda:GetFunctionCodeSigningConfig"
             ],
             "Resource": "*"
         },
@@ -66,14 +73,23 @@
                 "apigateway:POST",
                 "apigateway:PUT",
                 "apigateway:PATCH",
+                "apigateway:DELETE",
                 "apigateway:GET"
             ],
             "Resource": [
-                "arn:aws:apigateway:ap-southeast-2::/apis",
-                "arn:aws:apigateway:ap-southeast-2::/restapis/*",
-                "arn:aws:apigateway:ap-southeast-2::/restapis/*/resources/*",
-                "arn:aws:apigateway:ap-southeast-2::/restapis/*/methods/*",
-                "arn:aws:apigateway:ap-southeast-2::/restapis/*/stages/*"
+                "arn:aws:apigateway:*::/restapis",
+                "arn:aws:apigateway:*::/restapis/*",
+                "arn:aws:apigateway:*::/restapis/*/resources",
+                "arn:aws:apigateway:*::/restapis/*/resources/*",
+                "arn:aws:apigateway:*::/restapis/*/stages",
+                "arn:aws:apigateway:*::/restapis/*/stages/*",
+                "arn:aws:apigateway:*::/restapis/*/deployments",
+                "arn:aws:apigateway:*::/restapis/*/deployments/*",
+                "arn:aws:apigateway:*::/apis",
+                "arn:aws:apigateway:*::/apis/*",
+                "arn:aws:apigateway:*::/apis/*/routes",
+                "arn:aws:apigateway:*::/apis/*/routes/*",
+                "arn:aws:apigateway:*::/account"
             ]
         },
         {
@@ -87,38 +103,6 @@
                 "cloudwatch:GetMetricStatistics",
                 "cloudwatch:ListMetrics",
                 "cloudwatch:ListDashboards"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "iam:CreateRole",
-                "iam:UpdateRole",
-                "iam:DeleteRole",
-                "iam:PassRole",
-                "iam:AttachRolePolicy",
-                "iam:DetachRolePolicy",
-                "iam:PutRolePolicy",
-                "iam:DeleteRolePolicy",
-                "iam:CreatePolicy",
-                "iam:DeletePolicy",
-                "iam:CreatePolicyVersion",
-                "iam:DeletePolicyVersion",
-                "iam:ListPolicyVersions",
-                "iam:ListRoles"
-            ],
-            "Resource": [
-                "arn:aws:iam::011528265993:policy/*",
-                "arn:aws:iam::011528265993:role/service-role/*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "tag:GetResources",
-                "tag:GetTagKeys",
-                "tag:GetTagValues"
             ],
             "Resource": "*"
         }
