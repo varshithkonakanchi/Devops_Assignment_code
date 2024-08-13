@@ -1,0 +1,32 @@
+{
+    "def": {
+        "aws_region": "ap-southeast-2",
+        "django_settings": "pollme.settings",
+        "exclude": [
+            "boto3",
+            "dateutil",
+            "botocore",
+            "s3transfer",
+            "concurrent"
+        ],
+        "profile_name": "default",
+        "project_name": "pollme",
+        "runtime": "python3.10",
+        "s3_bucket": "zappa-06k06fprj",
+        "environment_variables": {
+            "DJANGO_SETTINGS_MODULE": "pollme.settings"
+        },
+        "vpc_config": {
+            "SubnetIds": [
+                "subnet-0531f9eb4671e8c76",
+                "subnet-09ba31f3a7ac08514",
+                "subnet-0f3c066c42be0f4cf"
+            ],
+            "SecurityGroupIds": [
+                "sg-0aaf41db4f0f5f3b3"
+            ]
+        }
+    }
+}
+
+
